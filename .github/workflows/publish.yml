@@ -12,7 +12,7 @@ jobs:
       - name: Build container
         uses: docker/build-push-action@v1
         with:
-          file: brisq-core/Dockerfile
+          dockerfile: brisq-core/Dockerfile
           username: brisqapp
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
