@@ -12,6 +12,7 @@ jobs:
       - name: Build container
         uses: docker/build-push-action@v1
         with:
+          context: brisq-core/brisq-core
           working-directory: ./brisq-core/
           dockerfile: ./brisq-core/Dockerfile
           username: brisqapp
