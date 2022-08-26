@@ -1,11 +1,7 @@
 FROM node:16-alpine
-WORKDIR /brisq-core
+#WORKDIR /brisq-core
 COPY . .
 RUN npm install -g nodemon
-RUN cd brisq-core/
-RUN pwd
-RUN ls -lisa
-RUN cd brisq-core/
 RUN pwd
 RUN ls -lisa
 RUN npm install
