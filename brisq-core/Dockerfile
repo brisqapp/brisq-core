@@ -4,6 +4,6 @@ COPY . .
 RUN npm install -g nodemon
 RUN pwd
 RUN ls -lisa
-COPY ./package.json .
+RUN cd brisq-core/
 RUN npm install
 CMD npm run nodemon
