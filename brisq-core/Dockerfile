@@ -3,7 +3,10 @@ WORKDIR /brisq-core
 RUN pwd
 RUN ls -lisa
 
-COPY ./brisq_core/ .
+COPY . .
+
+RUN pwd
+RUN ls -lisa
 
 RUN npm install -g nodemon
 RUN pwd
