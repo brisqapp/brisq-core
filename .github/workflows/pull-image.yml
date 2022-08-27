@@ -23,5 +23,4 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           docker pull ghcr.io/brisqapp/brisq-core:master
-          docker stack deploy brisq-core_dev
           echo "pull works" > ~/works
