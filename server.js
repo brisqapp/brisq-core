@@ -26,7 +26,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to brisq" });
+  res.json({ message: "Welcome to brisq v1" });
 });
 
 require("./app/routes/turorial.routes")(app);
