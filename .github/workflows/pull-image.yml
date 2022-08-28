@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: 
       - "Create and publish a Docker image"
-    branches: [master]
+    branches: [main]
     types: 
       - completed
     
