@@ -22,5 +22,9 @@ jobs:
         key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
+          docker stop brisq-core_dev_app_1
+          docker rm brisq-core_dev_app_1
+          docker rmi ghcr.io/brisqapp/brisq-core:main
           docker pull ghcr.io/brisqapp/brisq-core:main
-          echo "pull works" > ~/works
+          docker run -d -p 8080:8080 --name brisq-core_dev_app_1 --network brisq-core_dev_default ghcr.io/brisqapp/brisq-core:main
+          echo "pull works" > ~/works-core
