@@ -8,7 +8,7 @@ var corsOptions = {
   origin: "http://localhost:8080"
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -26,7 +26,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to brisq" });
+  res.json({ message: "Welcome to brisq test" });
 });
 
 require("./app/routes/turorial.routes")(app);
