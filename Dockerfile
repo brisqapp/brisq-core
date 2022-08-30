@@ -5,4 +5,4 @@ RUN npm install -g nodemon
 RUN npm install
 ENV NODE_ENV production
 EXPOSE 8080
-CMD ["npm", "run", "prod"]
+CMD ["npm", "run", "nodemon"]
