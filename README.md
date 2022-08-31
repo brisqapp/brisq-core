@@ -20,7 +20,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: ./brisq-core
+    build: .
     restart: unless-stopped
     env_file: ./.env
     ports:
