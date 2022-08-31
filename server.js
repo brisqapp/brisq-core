@@ -31,6 +31,7 @@ app.get("/", (req, res) => {
 
 require("./app/routes/companyType.routes")(app);
 require("./app/routes/company.routes")(app);
+require("./app/routes/auth.routes")(app);
 
 
 // set port, listen for requests

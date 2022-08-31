@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // login
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   // Validate request
   if (!req.body.name ||
     !req.body.password) {
@@ -23,9 +23,9 @@ exports.login = (req, res) => {
 
   if(company == null){
     res.status(403).send({
-        message:
-          err.message || "User or password incorrect."
+        message: "User or password incorrect."
       });
+      return;
   }
 
   const validPassword = await bcrypt.compare(company.password, req.body.password);

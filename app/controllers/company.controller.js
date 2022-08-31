@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 const bcrypt = require("bcrypt");
 
 // Create and Save a new Company
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
   if (!req.body.name ||
     !req.body.address ||
