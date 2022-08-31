@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken");
 // login
 exports.login = async (req, res) => {
   // Validate request
-  if (!req.body.name ||
+  if (!req.body.email ||
     !req.body.password) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -18,7 +18,7 @@ exports.login = async (req, res) => {
   }
 
   const company = await Company.findOne({
-    where: {name: req.body.name}
+    where: {email: req.body.email}
   });
 
   if(company == null){
@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
 
   if(validPassword){
     res.status(200).send({
-        token: jwt.sign(company.id, process.env.SECRET_TOKEN, {expiresIn: '308384739403817285'})
+        token: jwt.sign(company.id, process.env.SECRET_TOKEN, {expiresIn: '1800'})
     });
   }else {
     res.status(403).send({

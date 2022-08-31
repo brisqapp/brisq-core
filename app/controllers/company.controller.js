@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 // Create and Save a new Company
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.name ||
+  if (!req.body.email ||
     !req.body.address ||
     !req.body.postalCode ||
     !req.body.city ||
@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
 
   // Create a Company
   const company = {
-    name: req.body.name,
+    email: req.body.email,
     address: req.body.address,
     postalCode: req.body.postalCode,
     city: req.body.city,
