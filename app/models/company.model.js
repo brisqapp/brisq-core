@@ -1,6 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
   const Company = sequelize.define("company", {
-    name: {
+    firstName: {
+      type: Sequelize.STRING
+    },
+    lastName: {
+      type: Sequelize.STRING
+    },
+    email: {
+      type: Sequelize.STRING
+    },
+    password: {
+      type: Sequelize.STRING
+    },
+    companyName: {
       type: Sequelize.STRING
     },
     address: {
@@ -12,9 +24,7 @@ module.exports = (sequelize, Sequelize) => {
     city: {
       type: Sequelize.STRING
     },
-    password: {
-      type: Sequelize.STRING
-    }
+
   });
 
   return Company;

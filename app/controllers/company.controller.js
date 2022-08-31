@@ -7,11 +7,14 @@ const bcrypt = require("bcrypt");
 // Create and Save a new Company
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.email ||
+  if (!req.body.firstName ||
+    !req.body.lastName ||
+    !req.body.email ||
+    !req.body.password ||
+    !req.body.companyName ||
     !req.body.address ||
     !req.body.postalCode ||
     !req.body.city ||
-    !req.body.password ||
     !req.body.companyTypeId) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -23,11 +26,14 @@ exports.create = async (req, res) => {
 
   // Create a Company
   const company = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
+    password: await bcrypt.hash(req.body.password, salt),
+    companyName: req.body.companyName,
     address: req.body.address,
     postalCode: req.body.postalCode,
     city: req.body.city,
-    password: await bcrypt.hash(req.body.password, salt),
     companyTypeId: req.body.companyTypeId
   };
 
