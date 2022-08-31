@@ -25,4 +25,3 @@ jobs:
           cd /opt/brisq-core_dev/
           docker-compose pull
           docker-compose up -d
-          echo "pull works" > ~/works-core
