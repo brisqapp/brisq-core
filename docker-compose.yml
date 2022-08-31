@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=Pa$$w0rd
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=brisq_db
     ports:
       - 3306:3306
@@ -23,7 +23,7 @@ services:
     environment:
       - DB_HOST=mysqldb
       - DB_USER=root
-      - DB_PASSWORD=Pa$$w0rd
+      - DB_PASSWORD=root
       - DB_NAME=brisq_db
       - DB_PORT=3306
     stdin_open: true
