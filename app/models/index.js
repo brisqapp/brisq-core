@@ -1,7 +1,7 @@
 const dbConfig = require("../config/db.config.js");
 
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+const connection = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   port: dbConfig.port,
@@ -18,8 +18,41 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 
 db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.connection = connection;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+// Company & Company types
+db.company = require("./company.model.js")(connection, Sequelize);
+db.companyType = require("./companyType.model.js")(connection, Sequelize);
+db.companyType.hasMany(db.company, { foreignKey: 'companyTypeId', sourceKey: 'id' });
+db.company.belongsTo(db.companyType);
+
+// Employee
+db.employee = require("./employee.model.js")(connection, Sequelize);
+db.company.hasMany(db.employee, { foreignKey: 'companyId', sourceKey: 'id' });
+db.employee.belongsTo(db.company);
+
+// Schedule
+db.schedule = require("./schedule.model.js")(connection, Sequelize);
+db.employee.hasMany(db.schedule, { foreignKey: 'employeeId', sourceKey: 'id' });
+db.schedule.belongsTo(db.employee);
+
+// ServiceType
+
+db.serviceType = require("./serviceType.model.js")(connection, Sequelize);
+db.serviceEmployee = require("./serviceEmployee.model.js")(connection, Sequelize, db);
+
+db.employee.belongsToMany(db.serviceType, { through: db.serviceEmployee });
+db.serviceType.belongsToMany(db.employee, { through: db.serviceEmployee });
+
+// Client & Reservation
+
+db.client = require("./client.model.js")(connection, Sequelize);
+db.reservation = require("./reservation.model.js")(connection, Sequelize);
+db.client.hasMany(db.reservation, { foreignKey: 'clientId', sourceKey: 'id' });
+db.reservation.belongsTo(db.client);
+
+
+db.serviceEmployee.hasMany(db.reservation, { foreignKey: 'serviceEmployeeId', sourceKey: 'id' });
+db.reservation.belongsTo(db.serviceEmployee, { foreignKey: 'serviceEmployeeId' });
 
 module.exports = db;
