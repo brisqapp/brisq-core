@@ -20,8 +20,7 @@ module.exports = app => {
   // Delete a Company with id
   router.delete("/:id", companies.delete);
 
-  // Delete all Companies
-  router.delete("/", companies.deleteAll);
+  
 
   app.use('/api/companies', router);
 };

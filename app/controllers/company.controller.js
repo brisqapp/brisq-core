@@ -2,9 +2,10 @@ const db = require("../models");
 const Company = db.company;
 const CompanyType = db.companyType;
 const Op = db.Sequelize.Op;
+const bcrypt = require("bcrypt");
 
 // Create and Save a new Company
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
   if (!req.body.name ||
     !req.body.address ||
@@ -18,13 +19,15 @@ exports.create = (req, res) => {
     return;
   }
 
+  const salt = await bcrypt.genSalt(10);
+
   // Create a Company
   const company = {
     name: req.body.name,
     address: req.body.address,
     postalCode: req.body.postalCode,
     city: req.body.city,
-    password: req.body.password,
+    password: await bcrypt.hash(req.body.password, salt),
     companyTypeId: req.body.companyTypeId
   };
 
@@ -117,23 +120,6 @@ exports.delete = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete Company with id=" + id
-      });
-    });
-};
-
-// Delete all Companies from the database.
-exports.deleteAll = (req, res) => {
-  Company.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(nums => {
-      res.send({ message: `${nums} Companies were deleted successfully!` });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all companies."
       });
     });
 };
