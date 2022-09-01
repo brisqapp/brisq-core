@@ -12,12 +12,12 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const Employee = {
+  const employee = {
     name: req.body.name,
     companyId: req.body.companyId
   };
 
-  Employee.create(Employee)
+  Employee.create(employee)
     .then(data => {
       res.send(data);
     })
