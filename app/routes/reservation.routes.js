@@ -1,5 +1,6 @@
 module.exports = app => {
   const reservation = require("../controllers/reservation.controller.js");
+  const { checkJwt } = require("../middleware/checkjwt.js");
 
   var router = require("express").Router();
 
@@ -7,7 +8,7 @@ module.exports = app => {
   router.post("/", reservation.create);
 
   // Retrieve all Company types
-  router.get("/", reservation.findAll);
+  router.get("/", checkJwt , reservation.findAll);
 
   // Retrieve a single Company type with id
   router.get("/:id", reservation.findOne);

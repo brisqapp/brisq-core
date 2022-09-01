@@ -1,5 +1,6 @@
+const { client } = require("../models");
 const db = require("../models");
-const Reservation = db.Reservation;
+const Reservation = db.reservation;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
@@ -14,14 +15,14 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const Reservation = {
+  const reservation = {
     startHour: req.body.startHour,
     date: req.body.date,
     clientId: req.body.clientId,
     companyId: req.body.companyId
   };
 
-  Reservation.create(Reservation)
+  Reservation.create(reservation)
     .then(data => {
       res.send(data);
     })
@@ -33,18 +34,51 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
 
-  Reservation.findAll()
-    .then(data => {
-      res.send(data);
+  const idCompany = req.tokenId;
+
+  const reservations = await Reservation.findAll({
+    include : 
+    [{ 
+      model: db.client, 
+      required: true,
+    },
+    {
+      model: db.serviceEmployee, 
+      required: true,
+      include: 
+      [{
+        model: db.employee, 
+        required: true,
+        where: {companyId: idCompany},
+      },
+      {
+        model: db.serviceType, 
+        required: true
+      }]
+    }]
+  });
+
+  const employees = await db.employee.findAll({
+    where: {companyId: idCompany}
+  })
+
+  const data = {
+    employees: employees.map(e => e.name),
+    reservations: reservations.map(r => {
+      const endDate = new Date(new Date(r.date + " " + r.startHour).getTime() + r.ServiceEmployee.duration*60000);
+      return {
+        title: r.ServiceEmployee.serviceType.name,
+        startDate: r.date + " " + r.startHour,
+        endDate: r.date + " " + endDate.getHours() + ":" + endDate.getMinutes() + ":" + endDate.getSeconds(),
+        id: r.id,
+        location: r.ServiceEmployee.employee.name
+      }
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Reservations."
-      });
-    });
+  }
+
+  res.status(200).send(data);
 };
 
 exports.findOne = (req, res) => {
@@ -108,3 +142,4 @@ exports.delete = (req, res) => {
       });
     });
 };
+
