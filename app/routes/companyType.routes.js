@@ -18,8 +18,5 @@ module.exports = app => {
   // Delete a Company type with id
   router.delete("/:id", companyType.delete);
 
-  // Delete all Company types
-  router.delete("/", companyType.deleteAll);
-
   app.use('/api/companyTypes', router);
 };
