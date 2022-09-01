@@ -28,7 +28,8 @@ exports.login = async (req, res) => {
       return;
   }
 
-  const validPassword = await bcrypt.compare(company.password, req.body.password);
+  const validPassword = await bcrypt.compare(req.body.password, company.password);
+  console.log(validPassword, req.body.password);
 
   if(validPassword){
     res.status(200).send({
