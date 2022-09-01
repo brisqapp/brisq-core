@@ -37,8 +37,7 @@ exports.login = async (req, res) => {
     });
   }else {
     res.status(403).send({
-        message:
-          err.message || "User or password incorrect."
+        message: "User or password incorrect."
       });
   }
 };
