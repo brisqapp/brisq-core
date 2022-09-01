@@ -3,7 +3,19 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Company type
+  /**
+ * @api {post} client/ Create a new client
+ * @apiName Create
+ * @apiGroup Client
+ * 
+ * @apiDescription Creates a new client and inserts it into the database
+ *
+ * @apiParam {String} firstname First name of the user.
+ * @apiParam {String} lastname    Last name of the user.
+ * @apiParam {String} email       E-mail of the user.
+ *
+ *
+ */
   router.post("/", client.create);
 
   // Retrieve all Company types
