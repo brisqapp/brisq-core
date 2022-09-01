@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
 
   if(validPassword){
     res.status(200).send({
-        token: jwt.sign(company.id, process.env.SECRET_TOKEN, {expiresIn: '1800'}),
+        token: jwt.sign(company.id, process.env.TOKEN_SECRET, {expiresIn: '1800'}),
         user: company
     });
   }else {
