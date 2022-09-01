@@ -1,44 +1,42 @@
 const db = require("../models");
-const Employee = db.employee;
+const ServiceType = db.serviceType;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.name ||
-    !req.body.companyId) {
+  if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
     return;
   }
 
-  const Employee = {
-    name: req.body.name,
-    companyId: req.body.companyId
+  const ServiceType = {
+    name: req.body.name
   };
 
-  Employee.create(Employee)
+  ServiceType.create(ServiceType)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Employee."
+          err.message || "Some error occurred while creating the ServiceType."
       });
     });
 };
 
 exports.findAll = (req, res) => {
 
-  Employee.findAll()
+  ServiceType.findAll()
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Employees."
+          err.message || "Some error occurred while retrieving ServiceTypes."
       });
     });
 };
@@ -46,13 +44,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Employee.findByPk(id)
+  ServiceType.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Employee with id=" + id
+        message: "Error retrieving ServiceType with id=" + id
       });
     });
 };
@@ -60,23 +58,23 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Employee.update(req.body, {
+  ServiceType.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Employee was updated successfully."
+          message: "ServiceType was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update Employee with id=${id}. Maybe Employee was not found or req.body is empty!`
+          message: `Cannot update ServiceType with id=${id}. Maybe ServiceType was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Employee with id=" + id
+        message: "Error updating ServiceType with id=" + id
       });
     });
 };
@@ -84,23 +82,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Employee.destroy({
+  ServiceType.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Employee was deleted successfully!"
+          message: "ServiceType was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete Employee with id=${id}. Maybe Employee was not found!`
+          message: `Cannot delete ServiceType with id=${id}. Maybe ServiceType was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Employee with id=" + id
+        message: "Could not delete ServiceType with id=" + id
       });
     });
 };
