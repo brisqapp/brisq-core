@@ -1,4 +1,4 @@
-const { default: checkJwt } = require("../middleware/checkjwt.js");
+const { checkJwt } = require("../middleware/checkjwt.js");
 const { companyType } = require("../models/index.js");
 
 module.exports = app => {
