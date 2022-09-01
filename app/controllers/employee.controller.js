@@ -1,5 +1,5 @@
 const db = require("../models");
-const Employee = db.Employee;
+const Employee = db.employee;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {

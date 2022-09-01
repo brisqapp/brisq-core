@@ -1,5 +1,5 @@
 const db = require("../models");
-const ServiceType = db.ServiceType;
+const ServiceType = db.serviceType;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
