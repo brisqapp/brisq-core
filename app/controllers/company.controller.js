@@ -3,6 +3,7 @@ const Company = db.company;
 const CompanyType = db.companyType;
 const Op = db.Sequelize.Op;
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Create and Save a new Company
 exports.create = async (req, res) => {
@@ -40,7 +41,10 @@ exports.create = async (req, res) => {
   // Save Company in the database
   Company.create(company)
     .then(data => {
-      res.send(data);
+      res.send({
+        company:data, 
+        token: jwt.sign(data.id, process.env.SECRET_TOKEN, {expiresIn: '1800'})
+      });
     })
     .catch(err => {
       res.status(500).send({
@@ -67,7 +71,7 @@ exports.findAll = (req, res) => {
 
 // Find a single Company with an id
 exports.findOne = (req, res) => {
-  const id = req.params.id;
+  const id = req.tokenId;
 
   Company.findByPk(id)
     .then(data => {
@@ -82,7 +86,7 @@ exports.findOne = (req, res) => {
 
 // Update a Company by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
+  const id = req.tokenId;
 
   Company.update(req.body, {
     where: { id: id }
@@ -107,7 +111,7 @@ exports.update = (req, res) => {
 
 // Delete a Company with the specified id in the request
 exports.delete = (req, res) => {
-  const id = req.params.id;
+  const id = req.tokenId;
 
   Company.destroy({
     where: { id: id }
