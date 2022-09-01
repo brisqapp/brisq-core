@@ -43,7 +43,7 @@ exports.create = async (req, res) => {
     .then(data => {
       res.send({
         company:data, 
-        token: jwt.sign(data.id, process.env.SECRET_TOKEN, {expiresIn: '1800'})
+        token: jwt.sign(data.id, process.env.TOKEN_SECRET, {expiresIn: '1800'})
       });
     })
     .catch(err => {
