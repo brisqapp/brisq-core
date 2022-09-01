@@ -1,3 +1,4 @@
+const { default: checkJwt } = require("../middleware/checkjwt.js");
 const { companyType } = require("../models/index.js");
 
 module.exports = app => {
@@ -8,19 +9,14 @@ module.exports = app => {
   // Create a new Company
   router.post("/", company.create);
 
-  // Retrieve all company
-  router.get("/", company.findAll);
-
   // Retrieve a single Company with id
-  router.get("/:id", company.findOne);
+  router.get("/", checkJwt, company.findOne);
 
   // Update a Company with id
-  router.put("/:id", company.update);
+  router.put("/", checkJwt , company.update);
 
   // Delete a Company with id
-  router.delete("/:id", company.delete);
-
-
+  router.delete("/", checkJwt, company.delete);
 
   app.use('/api/companies', router);
 };
