@@ -1,5 +1,5 @@
 const db = require("../models");
-const Schedule = db.Schedule;
+const Schedule = db.schedule;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
     employeeId: req.body.employeeId
   };
 
-  Schedule.create(Schedule)
+  schedule.create(Schedule)
     .then(data => {
       res.send(data);
     })
