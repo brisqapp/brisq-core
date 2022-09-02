@@ -37,6 +37,7 @@ exports.create = async (req, res) => {
     });
 };
 
+
 exports.findAll = (req, res) => {
 
   Schedule.findAll()

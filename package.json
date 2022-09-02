@@ -26,5 +26,12 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.0.2",
     "sequelize": "^5.21.2"
+  },
+  "apidoc": {
+    "title": "brisq-core API documentation",
+    "url": "https://api-dev.brisq.app/api/",
+    "template": {
+      "showRequiredLabels": true
+    }
   }
 }
