@@ -1,5 +1,5 @@
 const db = require("../models");
-const Reservation = db.Reservation;
+const Reservation = db.reservation;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
@@ -14,14 +14,14 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const Reservation = {
+  const reservation = {
     startHour: req.body.startHour,
     date: req.body.date,
     clientId: req.body.clientId,
     companyId: req.body.companyId
   };
 
-  Reservation.create(Reservation)
+  Reservation.create(reservation)
     .then(data => {
       res.send(data);
     })
