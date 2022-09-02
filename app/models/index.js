@@ -41,9 +41,6 @@ db.schedule.belongsTo(db.employee);
 db.serviceType = require("./serviceType.model.js")(connection, Sequelize);
 db.serviceEmployee = require("./serviceEmployee.model.js")(connection, Sequelize, db);
 
-db.employee.belongsToMany(db.serviceType, { through: db.serviceEmployee });
-db.serviceType.belongsToMany(db.employee, { through: db.serviceEmployee });
-
 // Client & Reservation
 
 db.client = require("./client.model.js")(connection, Sequelize);
@@ -54,5 +51,11 @@ db.reservation.belongsTo(db.client);
 
 db.serviceEmployee.hasMany(db.reservation, { foreignKey: 'serviceEmployeeId', sourceKey: 'id' });
 db.reservation.belongsTo(db.serviceEmployee, { foreignKey: 'serviceEmployeeId' });
+
+db.employee.hasMany(db.serviceEmployee, { foreignKey: 'employeeId', sourceKey: 'id' });
+db.serviceEmployee.belongsTo(db.employee);
+
+db.serviceType.hasMany(db.serviceEmployee, { foreignKey: 'serviceTypeId', sourceKey: 'id' });
+db.serviceEmployee.belongsTo(db.serviceType);
 
 module.exports = db;
