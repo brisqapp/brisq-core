@@ -11,11 +11,11 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const ServiceType = {
+  const serviceType = {
     name: req.body.name
   };
 
-  ServiceType.create(ServiceType)
+  ServiceType.create(serviceType)
     .then(data => {
       res.send(data);
     })

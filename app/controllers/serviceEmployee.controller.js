@@ -1,5 +1,5 @@
 const db = require("../models");
-const ServiceEmployee = db.ServiceEmployee;
+const ServiceEmployee = db.serviceEmployee;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
@@ -13,13 +13,13 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const ServiceEmployee = {
+  const serviceEmployee = {
     employeeId: req.body.employeeId,
     serviceTypeId: req.body.serviceTypeId,
     duration: req.body.duration
   };
 
-  ServiceEmployee.create(ServiceEmployee)
+  ServiceEmployee.create(serviceEmployee)
     .then(data => {
       res.send(data);
     })
