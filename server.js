@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const db = require("./app/models");
 
-db.connection.sync({ force: true });
+db.connection.sync();
 // // drop the table if it already exists
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
@@ -26,7 +26,7 @@ db.connection.sync({ force: true });
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to brisq this is a test !" });
+  res.json({ message: "Welcome to brisq this is a test 2 !" });
 });
 
 require("./app/routes/companyType.routes")(app);
@@ -38,8 +38,6 @@ require("./app/routes/reservation.routes")(app);
 require("./app/routes/schedule.routes")(app);
 require("./app/routes/serviceEmployee.routes")(app);
 require("./app/routes/serviceType.routes")(app);
-
-
 
 // set port, listen for requests
 const PORT = process.env.NODE_DOCKER_PORT || 8080;

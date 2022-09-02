@@ -28,17 +28,17 @@ exports.login = async (req, res) => {
       return;
   }
 
-  const validPassword = await bcrypt.compare(company.password, req.body.password);
+  const validPassword = await bcrypt.compare(req.body.password, company.password);
+  console.log(validPassword, req.body.password);
 
   if(validPassword){
     res.status(200).send({
-        token: jwt.sign(company.id, process.env.TOKEN_SECRET, {expiresIn: '1800s'}),
+        token: jwt.sign(company.id, process.env.TOKEN_SECRET, {}),
         user: company
     });
   }else {
     res.status(403).send({
-        message:
-          err.message || "User or password incorrect."
+        message: "User or password incorrect."
       });
   }
 };

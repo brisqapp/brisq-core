@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.TIME
     },
     date: {
-      type: Sequelize.DATE
+      type: Sequelize.DATEONLY
     }
   });
 

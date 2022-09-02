@@ -1,5 +1,6 @@
 module.exports = app => {
   const reservation = require("../controllers/reservation.controller.js");
+  const { checkJwt } = require("../middleware/checkjwt.js");
 
   var router = require("express").Router();
 
@@ -48,7 +49,7 @@ module.exports = app => {
  *        "message": "Some error occurred while retrieving reservations."
  *    }
  */
-  router.get("/", reservation.findAll);
+  router.get("/", checkJwt , reservation.findAll);
 
   /**
  * @api {get} reservation/ Retrieve a reservation information by id
