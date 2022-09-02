@@ -133,3 +133,74 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+exports.getCompanyDetails = async (req, res) => {
+  //const idCompany = req.body.id;
+  const idCompany = 10;
+
+  /*const company = await Company.findAll({
+    where: {id: idCompany},
+    include : 
+    [{ 
+      model: db.employee, 
+      required: false,
+      include:
+      [{
+        model: db.schedule,
+        required: false,
+      },
+      {
+        model: db.serviceEmployee,
+        required: false,
+        include:
+        [{
+          model: db.reservation,
+          required: false
+        }]
+      }]
+    }]
+  });
+*/
+
+const company = await Company.findByPk(idCompany);
+
+const employees = await db.employee.findAll({
+  where: {companyId: idCompany},
+  include : 
+  [{
+      model: db.schedule,
+      required: true,
+  },
+  {
+      model: db.serviceEmployee,
+      required: true,
+      include:
+      [{
+        model: db.reservation,
+        required: true
+      }]
+  }]
+});
+
+  const data = {
+    company: company.companyName,
+    employees: employees.map(e => {
+      return {
+        id: e.id,
+        name : e.name,
+        schedule: e.schedules.map(s => {
+          return{
+            weekday: s.weekday,
+            morningBegin: s.morningBegin,
+            morningEnd: s.morningEnd,
+            afternoonBegin: s.afternoonBegin,
+            afternoonEnd: s.afternoonEnd,
+          }
+        }),
+        appointments: 
+      }
+    })
+  }
+
+  res.status(200).send(data);
+}
