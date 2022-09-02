@@ -7,7 +7,9 @@ exports.create = async (req, res) => {
   // Validate request
   if (!req.body.startHour ||
     !req.body.date ||
-    !req.body.clientId ||
+    !req.body.firstName ||
+    !req.body.lastName ||
+    !req.body.email ||
     !req.body.serviceEmployeeId) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -15,16 +17,32 @@ exports.create = async (req, res) => {
     return;
   }
 
+  // creation of the client
+  const client = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email
+  };
+
+  const newClient = await db.client.create(client)
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Client."
+      });
+    });
+
+  // creation of the reservation
   const reservation = {
     startHour: req.body.startHour,
     date: req.body.date,
-    clientId: req.body.clientId,
-    companyId: req.body.companyId
+    clientId: newClient.id,
+    serviceEmployeeId: req.body.serviceEmployeeId
   };
 
-  Reservation.create(reservation)
+  await Reservation.create(reservation)
     .then(data => {
-      res.send(data);
+      res.status(200).send(data);
     })
     .catch(err => {
       res.status(500).send({
