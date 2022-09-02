@@ -13,7 +13,7 @@ module.exports = app => {
  * @apiParam {String} name Name of the company type
  *
  * @apiSuccess  {Number} id         ID of the company type
- * @apiSuccess  {String} name  Name of the company type
+ * @apiSuccess  {String} name       Name of the company type
  * @apiSuccess  {Date}   updatedAt  Update date of the company type record
  * @apiSuccess  {Date}   createdAt  Creation date of the company type record
  * 
