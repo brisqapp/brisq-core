@@ -16,15 +16,16 @@ exports.create = async (req, res) => {
     return;
   }
 
-  const Schedule = {
-    morningBegin: req.body.startHour,
-    morningEnd: req.body.date,
-    afternoonBegin: req.body.clientId,
-    afternoonEnd: req.body.companyId,
+  const schedule = {
+    weekday: req.body.weekday,
+    morningBegin: req.body.morningBegin,
+    morningEnd: req.body.morningEnd,
+    afternoonBegin: req.body.afternoonBegin,
+    afternoonEnd: req.body.afternoonEnd,
     employeeId: req.body.employeeId
   };
 
-  schedule.create(Schedule)
+  Schedule.create(schedule)
     .then(data => {
       res.send(data);
     })
@@ -35,6 +36,7 @@ exports.create = async (req, res) => {
       });
     });
 };
+
 
 exports.findAll = (req, res) => {
 

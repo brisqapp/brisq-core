@@ -3,19 +3,111 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Company type
+  /**
+* @api {post} serviceType/ Create a new service type
+* @apiName create
+* @apiGroup ServiceType
+* 
+* @apiDescription Create a new service type
+*
+* @apiParam {String} name Name of the service type
+*
+* @apiSuccess  {Number} id    ID of the client
+* @apiSuccess  {String} name  Name of the service type
+* @apiSuccess  {Date}   updatedAt  Update date of the service type record
+* @apiSuccess  {Date}   createdAt  Creation date of the service type record
+* 
+* @apiErrorExample If some fields are missing
+*    {
+*        "message": "Content can not be empty!"
+*    }
+*/
   router.post("/", serviceType.create);
 
-  // Retrieve all Company types
+  /**
+* @api {get} serviceType/ Find all service types
+* @apiName findAll
+* @apiGroup ServiceType
+* 
+* @apiDescription Find all service types
+*
+* @apiSuccess  {Number} id    ID of the client
+* @apiSuccess  {String} name  Name of the service type
+* @apiSuccess  {Date}   updatedAt  Update date of the service type record
+* @apiSuccess  {Date}   createdAt  Creation date of the service type record
+* 
+* @apiErrorExample If an error occured
+*    {
+*        "message": "Some error occurred while retrieving service types."
+*    }
+*/
   router.get("/", serviceType.findAll);
 
-  // Retrieve a single Company type with id
+  /**
+* @api {get} serviceType/ Get a service type information
+* @apiName findOne
+* @apiGroup ServiceType
+* 
+* @apiDescription Get a service type information
+*
+* @apiParam {Number} id ID of the service type
+*
+* @apiSuccess  {Number} id    ID of the client
+* @apiSuccess  {String} name  Name of the service type
+* @apiSuccess  {Date}   updatedAt  Update date of the service type record
+* @apiSuccess  {Date}   createdAt  Creation date of the service type record
+* 
+* @apiErrorExample If an error occured
+*    {
+*        "message": "Error retrieving service type with id=:id"
+*    }
+*/
   router.get("/:id", serviceType.findOne);
 
-  // Update a Company type with id
+  /**
+* @api {put} serviceType/ Update a service type information
+* @apiName update
+* @apiGroup ServiceType
+* 
+* @apiDescription Update a service type information
+*
+* @apiParam {Number} id ID of the service type
+*
+*
+* @apiParam  {Number} id    ID of the client
+* @apiParam  {String} name  Name of the service type
+* @apiParam  {Date}   updatedAt  Update date of the service type record
+* @apiParam  {Date}   createdAt  Creation date of the service type record
+*
+*
+* @apiSuccess  {Number} id    ID of the client
+* @apiSuccess  {String} name  Name of the service type
+* @apiSuccess  {Date}   updatedAt  Update date of the service type record
+* @apiSuccess  {Date}   createdAt  Creation date of the service type record
+* 
+* @apiErrorExample If an error occured
+*    {
+*        "message": "Cannot update service type with id=:id. Maybe service type was not found or req.body is empty!"
+*    }
+*/
   router.put("/:id", serviceType.update);
 
-  // Delete a Company type with id
+  /**
+* @api {delete} serviceType/ Delete a service type
+* @apiName delete
+* @apiGroup ServiceType
+* 
+* @apiDescription Delete a service type
+*
+* @apiParam {Number} id ID of the service type
+* 
+  * @apiSuccess  {String} message  service type was deleted successfully!
+  * 
+  * @apiErrorExample If an error occured
+  *    {
+  *        "message": "Cannot delete service type with id=:id. Maybe service type was not found!"
+  *    }
+*/
   router.delete("/:id", serviceType.delete);
 
   app.use('/api/serviceTypes', router);
