@@ -4,10 +4,10 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Company type
+  // Create a new Reservations type
   router.post("/", reservation.create);
 
-  // Retrieve all Company types
+  // Retrieve all Reservations for one Company
   router.get("/", checkJwt , reservation.findAll);
 
   // Retrieve a single Company type with id
