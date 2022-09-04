@@ -138,30 +138,6 @@ exports.getCompanyDetails = async (req, res) => {
   //const idCompany = req.body.id;
   const idCompany = 10;
 
-  /*const company = await Company.findAll({
-    where: {id: idCompany},
-    include : 
-    [{ 
-      model: db.employee, 
-      required: false,
-      include:
-      [{
-        model: db.schedule,
-        required: false,
-      },
-      {
-        model: db.serviceEmployee,
-        required: false,
-        include:
-        [{
-          model: db.reservation,
-          required: false
-        }]
-      }]
-    }]
-  });
-*/
-
 const company = await Company.findByPk(idCompany);
 
 const employees = await db.employee.findAll({
@@ -178,7 +154,12 @@ const employees = await db.employee.findAll({
       [{
         model: db.reservation,
         required: true
-      }]
+      },
+      {
+        model: db.serviceType,
+        required: true
+      }
+    ]
   }]
 });
 
@@ -188,16 +169,22 @@ const employees = await db.employee.findAll({
       return {
         id: e.id,
         name : e.name,
-        schedule: e.schedules.map(s => {
-          return{
-            weekday: s.weekday,
-            morningBegin: s.morningBegin,
-            morningEnd: s.morningEnd,
-            afternoonBegin: s.afternoonBegin,
-            afternoonEnd: s.afternoonEnd,
-          }
+        schedule: e.schedules,
+        services: e.ServiceEmployees.map(se => {
+          return se.serviceType
         }),
-        appointments: 
+        appointments: e.ServiceEmployees.map(s => {
+          const duration = s.duration
+          return s.reservations.map(r => {
+            const endDate = new Date(new Date(r.date + " " + r.startHour).getTime() + duration*60000);
+            return {
+              title: "Réservé",
+              startDate: r.date + " " + r.startHour,
+              endDate: r.date + " " + endDate.getHours() + ":" + endDate.getMinutes() + ":" + endDate.getSeconds(),
+              id: r.id
+            }
+          })
+        })
       }
     })
   }
