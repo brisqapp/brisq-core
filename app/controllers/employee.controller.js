@@ -53,6 +53,7 @@ exports.findAll = async (req, res) => {
   const data = {
     employees: employees.map(e => {
       return {
+        id: e.id,
         name: e.name,
         serviceName: e.ServiceEmployees.map(se => {
           return se.serviceType.name
@@ -66,18 +67,44 @@ exports.findAll = async (req, res) => {
   res.status(200).send(data);
 };
 
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
 
-  Employee.findByPk(id)
-    .then(data => {
-      res.send(data);
+  const employe = await Employee.findOne({
+    where: 
+    { 
+      id: id
+    },
+    include : [{
+      model: db.serviceEmployee,
+      require: true,
+      include:[{
+        model: db.serviceType,
+        require: true
+      }]
+    }, {
+      model: db.schedule,
+      require: true
+    }]
+  });
+
+  console.log(employe);
+
+  const data = {
+    id: employe.id,
+    name: employe.name,
+    schedules: employe.schedules,
+    services: employe.ServiceEmployees.map(se => {
+      return {
+        id: se.id,
+        idService: se.serviceType.id,
+        name: se.serviceType.name,
+        duration: se.duration
+      }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Employee with id=" + id
-      });
-    });
+  }
+  
+  res.status(200).send(data);
 };
 
 exports.update = (req, res) => {

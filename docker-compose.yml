@@ -28,9 +28,13 @@ services:
       - DB_PORT=3306
       - WATCHPACK_POLLING=true
     stdin_open: true
-    tty: true
-    volumes:
-      - .:/brisq-core
-
+    tty: true    
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=mysqldb
 volumes:
   db:
