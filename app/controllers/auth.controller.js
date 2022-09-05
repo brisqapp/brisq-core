@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : auth.controller.js
+ * Description    : Contient les requêtes faites à la BDD pour l'authentification.             
+ */
+
 const { USER } = require("../config/db.config");
 const db = require("../models");
 const Company = db.company;
