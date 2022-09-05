@@ -3,9 +3,11 @@ const Employee = db.employee;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
+
+  const idCompany = req.tokenId;
+
   // Validate request
-  if (!req.body.name ||
-    !req.body.companyId) {
+  if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -14,7 +16,7 @@ exports.create = async (req, res) => {
 
   const employee = {
     name: req.body.name,
-    companyId: req.body.companyId
+    companyId: idCompany
   };
 
   Employee.create(employee)
@@ -29,18 +31,39 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
 
-  Employee.findAll()
-    .then(data => {
-      res.send(data);
+  const idCompany = req.tokenId;
+
+  const employees = await Employee.findAll({
+    where: 
+    { 
+      companyId: idCompany
+    },
+    include : [{
+      model: db.serviceEmployee,
+      require: true,
+      include:[{
+        model: db.serviceType,
+        require: true
+      }]
+    }]
+  });
+
+  const data = {
+    employees: employees.map(e => {
+      return {
+        name: e.name,
+        serviceName: e.ServiceEmployees.map(se => {
+          return se.serviceType.name
+        })
+      }
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Employees."
-      });
-    });
+    
+    
+  }
+  
+  res.status(200).send(data);
 };
 
 exports.findOne = (req, res) => {

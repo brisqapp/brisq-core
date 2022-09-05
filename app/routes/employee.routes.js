@@ -1,5 +1,6 @@
 module.exports = app => {
   const employee = require("../controllers/employee.controller.js");
+  const { checkJwt } = require("../middleware/checkjwt.js");
 
   var router = require("express").Router();
 
@@ -24,7 +25,7 @@ module.exports = app => {
  *        "message": "Content can not be empty!"
  *    }
  */
-  router.post("/", employee.create);
+  router.post("/", checkJwt ,employee.create);
 
   /**
  * @api {get} employee/ Get all employees of the current logged-in company
@@ -45,7 +46,7 @@ module.exports = app => {
  *        "message": "Some error occurred while retrieving employees."
  *    }
  */
-  router.get("/", employee.findAll);
+  router.get("/", checkJwt, employee.findAll);
 
   /**
  * @api {get} employee/ Retrieve an employee information by id
