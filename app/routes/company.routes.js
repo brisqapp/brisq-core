@@ -133,5 +133,8 @@ module.exports = app => {
    */
   router.delete("/", checkJwt, company.delete);
 
+  // Retrieve details of a Company and his employees (schedule, reservations)
+  router.get("/getCompanyDetails", company.getCompanyDetails);
+
   app.use('/api/companies', router);
 };

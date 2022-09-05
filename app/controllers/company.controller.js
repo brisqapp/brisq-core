@@ -133,3 +133,61 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+exports.getCompanyDetails = async (req, res) => {
+  //const idCompany = req.body.id;
+  const idCompany = 10;
+
+const company = await Company.findByPk(idCompany);
+
+const employees = await db.employee.findAll({
+  where: {companyId: idCompany},
+  include : 
+  [{
+      model: db.schedule,
+      required: true,
+  },
+  {
+      model: db.serviceEmployee,
+      required: true,
+      include:
+      [{
+        model: db.reservation,
+        required: true
+      },
+      {
+        model: db.serviceType,
+        required: true
+      }
+    ]
+  }]
+});
+
+  const data = {
+    company: company.companyName,
+    employees: employees.map(e => {
+      return {
+        id: e.id,
+        name : e.name,
+        schedule: e.schedules,
+        services: e.ServiceEmployees.map(se => {
+          return se.serviceType
+        }),
+        appointments: e.ServiceEmployees.map(s => {
+          const duration = s.duration
+          return s.reservations.map(r => {
+            const endDate = new Date(new Date(r.date + " " + r.startHour).getTime() + duration*60000);
+            return {
+              title: "Réservé",
+              startDate: r.date + " " + r.startHour,
+              endDate: r.date + " " + endDate.getHours() + ":" + endDate.getMinutes() + ":" + endDate.getSeconds(),
+              id: r.id
+            }
+          })
+        })
+      }
+    })
+  }
+
+  res.status(200).send(data);
+}
