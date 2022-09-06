@@ -1,5 +1,6 @@
 const db = require("../models");
 const Employee = db.employee;
+const ServiceEmploye = db.serviceEmployee;
 const Op = db.Sequelize.Op;
 
 exports.create = async (req, res) => {
@@ -88,8 +89,6 @@ exports.findOne = async (req, res) => {
     }]
   });
 
-  console.log(employe);
-
   const data = {
     id: employe.id,
     name: employe.name,
@@ -107,28 +106,77 @@ exports.findOne = async (req, res) => {
   res.status(200).send(data);
 };
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.params.id;
 
-  Employee.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Employee was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update Employee with id=${id}. Maybe Employee was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating Employee with id=" + id
-      });
+
+  const employe = await Employee.findOne({
+    where: 
+    { 
+      id: id
+    },
+    include : [{
+      model: db.serviceEmployee,
+      require: true
+    }, {
+      model: db.schedule,
+      require: true
+    }]
+  });
+
+
+  if(employe == null){
+    res.status(401).send({
+      message: "Employee not found"
     });
+  }
+
+  //Modification des informations de l'employé
+  employe.name = req.body.name;
+
+  const servicesEmployeId = [];
+
+  //Modification des services de l'employé
+  for(const service of req.body.services){
+    if(service.id < 0){
+      //Insertion dans ServiceEmploye
+      const serviceEmployee = await ServiceEmploye.create({
+        employeeId: id,
+        serviceTypeId: service.serviceId,
+        duration: service.duration
+      });
+      servicesEmployeId.push(serviceEmployee.id);
+    } else {
+      //Selection
+      const serviceEmployee = await ServiceEmploye.update({duration: service.duration}, {
+        where: {id: service.id},
+        returning: true,
+      });
+      console.log(serviceEmployee);
+      servicesEmployeId.push(serviceEmployee.id);
+    }
+  }
+
+  existingServicesEmploye = await ServiceEmploye.findAll({
+    where: {employeeId: id}
+  })
+
+  console.log(servicesEmployeId);
+  //Supprime les services employés non utilisé
+  for(const existingServiceEmploye of existingServicesEmploye){
+    if(!servicesEmployeId.includes(existingServiceEmploye.id)){
+      console.log(existingServiceEmploye.id)
+      ServiceEmploye.destroy({
+        where: {id: existingServiceEmploye.id}
+      })
+    }
+  }
+
+  employe.save();
+
+  res.status(200).send({
+    message: "Enregistrement effectué"
+  })
 };
 
 exports.delete = (req, res) => {
