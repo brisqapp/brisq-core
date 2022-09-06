@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : company.model.js
+ * Description    : Spécification de la table "company" et de ses champs.                 
+ */
+
 module.exports = (sequelize, Sequelize) => {
   const Company = sequelize.define("company", {
     firstName: {

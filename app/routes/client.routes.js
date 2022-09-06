@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : client.routes.js
+ * Description    : Contient les routes pour la partie client.
+ */
+
 module.exports = app => {
   const client = require("../controllers/client.controller.js");
 

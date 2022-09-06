@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : company.controller.js
+ * Description    : Contient les requêtes faites à la BDD concernant la table "company".             
+ */
+
 const db = require("../models");
 const Company = db.company;
 const CompanyType = db.companyType;
@@ -5,9 +12,10 @@ const Op = db.Sequelize.Op;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// Create and Save a new Company
+// Fonction permettant de créer une "company"
 exports.create = async (req, res) => {
-  // Validate request
+
+  // Vérification de si tous les champs nécessaires sont présents dans la requête
   if (!req.body.firstName ||
     !req.body.lastName ||
     !req.body.email ||
@@ -23,9 +31,10 @@ exports.create = async (req, res) => {
     return;
   }
 
+  // Génération d'un sel pour le hashage du mot de passe
   const salt = await bcrypt.genSalt(10);
 
-  // Create a Company
+  // Récupération des informations présentes dans la requête
   const company = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -38,7 +47,7 @@ exports.create = async (req, res) => {
     companyTypeId: req.body.companyTypeId
   };
 
-  // Save Company in the database
+  // Sauvegarde de la "company" dans la BDD
   Company.create(company)
     .then(data => {
       res.send({
@@ -54,7 +63,7 @@ exports.create = async (req, res) => {
     });
 };
 
-// Retrieve all Companies from the database.
+// Fonction permettant de récupérer toutes les "company"
 exports.findAll = (req, res) => {
 
   Company.findAll({ include: CompanyType })
@@ -69,8 +78,10 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Company with an id
+// Fonction permettant de trouver une "company" à l'aide de son id
 exports.findOne = (req, res) => {
+
+  // Récupération de l'id à partir du token de connexion
   const id = req.tokenId;
 
   Company.findByPk(id)
@@ -84,7 +95,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Company by the id in the request
+// Fonction permettant d'update une "company" à l'aide d'un id
 exports.update = (req, res) => {
   const id = req.tokenId;
 
@@ -109,7 +120,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Company with the specified id in the request
+// Fonction permettant de supprimer une "company" à l'aide d'un id
 exports.delete = (req, res) => {
   const id = req.tokenId;
 

@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : client.routes.js
+ * Description    : Contient les routes pour la partie client.
+ */
+
 const { checkJwt } = require("../middleware/checkjwt.js");
 const { companyType } = require("../models/index.js");
 

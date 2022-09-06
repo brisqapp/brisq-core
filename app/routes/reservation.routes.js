@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : reservation.routes.js
+ * Description    : Contient les routes pour la partie reservation.
+ */
+
 module.exports = app => {
   const reservation = require("../controllers/reservation.controller.js");
   const { checkJwt } = require("../middleware/checkjwt.js");

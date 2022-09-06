@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : companyType.routes.js
+ * Description    : Contient les routes pour la partie companyTypes.
+ */
+
 module.exports = app => {
   const companyType = require("../controllers/companyType.controller.js");
 

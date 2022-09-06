@@ -1,3 +1,4 @@
+
 module.exports = app => {
   const schedule = require("../controllers/schedule.controller.js");
 

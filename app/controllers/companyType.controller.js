@@ -1,10 +1,18 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : companyType.controller.js
+ * Description    : Contient les requêtes faites à la BDD concernant la table "companyType".             
+ */
+
 const db = require("../models");
 const CompanyType = db.companyType;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Company
+// Fonction permettant de créer un "companyType"
 exports.create = (req, res) => {
-  // Validate request
+
+  // Vérification de si tous les champs nécessaires sont présents dans la requête
   if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -12,12 +20,12 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Company
+  // Récupération des informations présentes dans la requête
   const companyType = {
     name: req.body.name
   };
 
-  // Save Company in the database
+  // Sauvegarde du "companyType" dans la BDD
   CompanyType.create(companyType)
     .then(data => {
       res.send(data);
@@ -30,7 +38,7 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Companies from the database.
+// Fonction permettant de récupérer tous les "companyType"
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -47,7 +55,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Company type with an id
+// Fonction permettant de trouver un "companyType" à l'aide de son id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -62,7 +70,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Company by the id in the request
+// Fonction permettant d'update un "companyType" à l'aide d'un id
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -87,7 +95,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Company with the specified id in the request
+// Fonction permettant de supprimer une "companyType" à l'aide d'un id
 exports.delete = (req, res) => {
   const id = req.params.id;
 
