@@ -1,5 +1,6 @@
 const db = require("../models");
 const Employee = db.employee;
+const Schedule = db.schedule;
 const ServiceEmploye = db.serviceEmployee;
 const Op = db.Sequelize.Op;
 
@@ -60,8 +61,7 @@ exports.findAll = async (req, res) => {
           return se.serviceType.name
         })
       }
-    })
-    
+    })    
     
   }
   
@@ -92,7 +92,15 @@ exports.findOne = async (req, res) => {
   const data = {
     id: employe.id,
     name: employe.name,
-    schedules: employe.schedules,
+    schedules: employe.schedules.map(schedule => {
+      return {
+        weekday: schedule.weekday,
+        morningBegin: schedule.morningBegin.slice(0, 5),
+        morningEnd: schedule.morningEnd.slice(0, 5),
+        afternoonBegin: schedule.afternoonBegin.slice(0, 5),
+        afternoonEnd: schedule.afternoonEnd.slice(0, 5),
+      }
+    }),
     services: employe.ServiceEmployees.map(se => {
       return {
         id: se.id,
@@ -147,12 +155,13 @@ exports.update = async (req, res) => {
       });
       servicesEmployeId.push(serviceEmployee.id);
     } else {
-      //Selection
-      const serviceEmployee = await ServiceEmploye.update({duration: service.duration}, {
-        where: {id: service.id},
-        returning: true,
+      //Modification de service employe
+      await ServiceEmploye.update({duration: service.duration}, {
+        where: {id: service.id}
       });
-      console.log(serviceEmployee);
+      const serviceEmployee = await ServiceEmploye.findOne({
+        where: {id: service.id}
+      });
       servicesEmployeId.push(serviceEmployee.id);
     }
   }
@@ -160,14 +169,34 @@ exports.update = async (req, res) => {
   existingServicesEmploye = await ServiceEmploye.findAll({
     where: {employeeId: id}
   })
-
-  console.log(servicesEmployeId);
   //Supprime les services employés non utilisé
   for(const existingServiceEmploye of existingServicesEmploye){
     if(!servicesEmployeId.includes(existingServiceEmploye.id)){
-      console.log(existingServiceEmploye.id)
       ServiceEmploye.destroy({
         where: {id: existingServiceEmploye.id}
+      })
+    }
+  }
+
+  //Modification des horaires de l'employé
+  for(const schedule of req.body.schedules){
+    const searchSchedule = await Schedule.findOne({
+      where: {
+        weekday: schedule.weekday,
+        employeeId: id
+      }
+    })
+    if(searchSchedule == null){
+      await Schedule.create({
+        ...schedule,
+        employeeId: id
+      });  
+    } else {
+      await Schedule.update({
+        ...schedule,
+        employeeId: id
+      }, {
+        where: {id: schedule.id}
       })
     }
   }

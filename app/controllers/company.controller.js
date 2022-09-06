@@ -135,32 +135,34 @@ exports.delete = (req, res) => {
 };
 
 exports.getCompanyDetails = async (req, res) => {
-  const idCompany = req.body.id;
+  const idCompany = req.params.id;
 
-const company = await Company.findByPk(idCompany);
+  const company = await Company.findByPk(idCompany);
 
-const employees = await db.employee.findAll({
-  where: {companyId: idCompany},
-  include : 
-  [{
-      model: db.schedule,
-      required: true,
-  },
-  {
-      model: db.serviceEmployee,
-      required: true,
-      include:
-      [{
-        model: db.reservation,
-        required: true
-      },
-      {
-        model: db.serviceType,
-        required: true
-      }
-    ]
-  }]
-});
+  const employees = await db.employee.findAll({
+    where: {companyId: idCompany},
+    include : 
+    [{
+        model: db.schedule,
+        required: false,
+    },
+    {
+        model: db.serviceEmployee,
+        required: false,
+        include:
+        [{
+          model: db.reservation,
+          required: false
+        },
+        {
+          model: db.serviceType,
+          required: false
+        }
+      ]
+    }]
+  });
+
+  console.log(employees, idCompany);
 
   const data = {
     company: company.companyName,
