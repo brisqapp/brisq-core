@@ -31,13 +31,6 @@ services:
     tty: true
     volumes:
       - .:/brisq-core
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8081:80
-    environment:
-      - PMA_HOST=mysqldb
 
 volumes:
   db:

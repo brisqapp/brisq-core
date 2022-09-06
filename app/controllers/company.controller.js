@@ -146,8 +146,7 @@ exports.delete = (req, res) => {
 };
 
 exports.getCompanyDetails = async (req, res) => {
-  //const idCompany = req.body.id;
-  const idCompany = 10;
+  const idCompany = req.body.id;
 
 const company = await Company.findByPk(idCompany);
 

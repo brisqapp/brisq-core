@@ -24,7 +24,7 @@ exports.create = async (req, res) => {
   // Récupération des informations présentes dans la requête
   const employee = {
     name: req.body.name,
-    companyId: req.body.companyId
+    companyId: idCompany
   };
 
   // Sauvegarde de "employee" dans la BDD
@@ -43,16 +43,37 @@ exports.create = async (req, res) => {
 // Fonction permettant de récupérer tous les "employee"
 exports.findAll = (req, res) => {
 
-  Employee.findAll()
-    .then(data => {
-      res.send(data);
+  const idCompany = req.tokenId;
+
+  const employees = await Employee.findAll({
+    where: 
+    { 
+      companyId: idCompany
+    },
+    include : [{
+      model: db.serviceEmployee,
+      require: true,
+      include:[{
+        model: db.serviceType,
+        require: true
+      }]
+    }]
+  });
+
+  const data = {
+    employees: employees.map(e => {
+      return {
+        name: e.name,
+        serviceName: e.ServiceEmployees.map(se => {
+          return se.serviceType.name
+        })
+      }
     })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Employees."
-      });
-    });
+    
+    
+  }
+  
+  res.status(200).send(data);
 };
 
 // Fonction permettant de trouver un "employee" à l'aide de son id
