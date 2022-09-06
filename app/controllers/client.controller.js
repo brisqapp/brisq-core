@@ -1,9 +1,18 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : client.controller.js
+ * Description    : Contient les requêtes faites à la BDD concernant la table "client".             
+ */
+
 const db = require("../models");
 const Client = db.client;
 const Op = db.Sequelize.Op;
 
+// Fonction permettant de créer un "client"
 exports.create = async (req, res) => {
-  // Validate request
+  
+  // Vérification de si tous les champs nécessaires sont présents dans la requête
   if (!req.body.firstName ||
     !req.body.lastName ||
     !req.body.email) {
@@ -13,12 +22,14 @@ exports.create = async (req, res) => {
     return;
   }
 
+  // Récupération des informations présentes dans la requête
   const client = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
   };
 
+  // Sauvegarde du client dans la BDD
   Client.create(client)
     .then(data => {
       res.send(data);
@@ -31,6 +42,7 @@ exports.create = async (req, res) => {
     });
 };
 
+// Fonction permettant de récupérer tous les "client"
 exports.findAll = (req, res) => {
 
   Client.findAll()
@@ -45,6 +57,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Fonction permettant de trouver un client à l'aide de son id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -59,6 +72,7 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Fonction permettant d'update un client à l'aide d'un id
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -83,6 +97,7 @@ exports.update = (req, res) => {
     });
 };
 
+// Fonction permettant de supprimer un "client" à l'aide d'un id
 exports.delete = (req, res) => {
   const id = req.params.id;
 
