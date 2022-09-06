@@ -145,11 +145,15 @@ exports.delete = (req, res) => {
     });
 };
 
+// Fonction permettant de récupérer tous les détails d'une "company"
 exports.getCompanyDetails = async (req, res) => {
-  const idCompany = req.body.id;
 
+const idCompany = req.body.id;
+
+// Récupérer les informations d'une company
 const company = await Company.findByPk(idCompany);
 
+// récupérer toutes les informations des employés d'une entreprise
 const employees = await db.employee.findAll({
   where: {companyId: idCompany},
   include : 
@@ -173,6 +177,7 @@ const employees = await db.employee.findAll({
   }]
 });
 
+// parsing des données récupérées précèdement
   const data = {
     company: company.companyName,
     employees: employees.map(e => {
