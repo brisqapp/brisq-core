@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : serviceType.routes.js
+ * Description    : Contient les routes pour la partie serviceType.
+ */
+
 module.exports = app => {
   const serviceType = require("../controllers/serviceType.controller.js");
 
