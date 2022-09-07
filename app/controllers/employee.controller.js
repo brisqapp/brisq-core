@@ -14,9 +14,10 @@ const Op = db.Sequelize.Op;
 // Fonction permettant de créer un "employee"
 exports.create = async (req, res) => {
 
+  idCompany = req.tokenId;
+
   // Vérification de si tous les champs nécessaires sont présents dans la requête
-  if (!req.body.name ||
-    !req.body.companyId) {
+  if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
