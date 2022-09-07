@@ -44,7 +44,7 @@ exports.create = async (req, res) => {
 };
 
 // Fonction permettant de récupérer tous les "employee"
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
 
   const idCompany = req.tokenId;
 
