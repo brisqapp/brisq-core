@@ -29,7 +29,7 @@ db.connection.sync();
 
 // Route basique de test pour l'API
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to brisq this is a test 2 !" });
+  res.json({ message: "Welcome to brisq this is a test 21 !" });
 });
 
 //Importation des routes utilisées

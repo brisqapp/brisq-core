@@ -8,8 +8,10 @@
 const jwt = require('jsonwebtoken');
 
 exports.checkJwt = (req, res, next) => {
+  console.log("testjasdfwt");
   const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+  console.log(authHeader);
+  const token = authHeader;
 
   if (token == null) return res.sendStatus(401)
 
