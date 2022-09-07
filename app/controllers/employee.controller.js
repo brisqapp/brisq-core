@@ -48,7 +48,7 @@ exports.findAll = (req, res) => {
 
   const idCompany = req.tokenId;
 
-  const employees = Employee.findAll({
+  const employees = await Employee.findAll({
     where: 
     { 
       companyId: idCompany
