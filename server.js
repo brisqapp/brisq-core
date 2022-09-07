@@ -26,7 +26,7 @@ db.connection.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to brisq this is a test 2 !" });
+  res.json({ message: "Welcome to brisq this is a test 21 !" });
 });
 
 require("./app/routes/companyType.routes")(app);

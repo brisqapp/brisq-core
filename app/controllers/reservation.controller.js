@@ -40,6 +40,8 @@ exports.create = async (req, res) => {
     serviceEmployeeId: req.body.serviceEmployeeId
   };
 
+  console.log(reservation)
+
   await Reservation.create(reservation)
     .then(data => {
       res.status(200).send(data);

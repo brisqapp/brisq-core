@@ -144,6 +144,7 @@ exports.update = async (req, res) => {
 
   const servicesEmployeId = [];
 
+  console.log(req.body.services);
   //Modification des services de l'employé
   for(const service of req.body.services){
     if(service.id < 0){
@@ -157,10 +158,14 @@ exports.update = async (req, res) => {
     } else {
       //Modification de service employe
       await ServiceEmploye.update({duration: service.duration}, {
-        where: {id: service.id}
+        where: {
+          id: service.id
+        }
       });
       const serviceEmployee = await ServiceEmploye.findOne({
-        where: {id: service.id}
+        where: {
+          id: service.id
+        }
       });
       servicesEmployeId.push(serviceEmployee.id);
     }
@@ -196,7 +201,7 @@ exports.update = async (req, res) => {
         ...schedule,
         employeeId: id
       }, {
-        where: {id: schedule.id}
+        where: {id: searchSchedule.id}
       })
     }
   }

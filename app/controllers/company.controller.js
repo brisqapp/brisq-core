@@ -156,13 +156,11 @@ exports.getCompanyDetails = async (req, res) => {
         },
         {
           model: db.serviceType,
-          required: false
+          required: true
         }
       ]
     }]
   });
-
-  console.log(employees, idCompany);
 
   const data = {
     company: company.companyName,
@@ -172,10 +170,14 @@ exports.getCompanyDetails = async (req, res) => {
         name : e.name,
         schedule: e.schedules,
         services: e.ServiceEmployees.map(se => {
-          return se.serviceType
+          return {
+            id: se.id,
+            name: se.serviceType.name
+          }
         }),
         appointments: e.ServiceEmployees.map(s => {
-          const duration = s.duration
+          if(s.reservations.length == 0) return null;
+          const duration = s.duration;
           return s.reservations.map(r => {
             const endDate = new Date(new Date(r.date + " " + r.startHour).getTime() + duration*60000);
             return {
@@ -189,6 +191,8 @@ exports.getCompanyDetails = async (req, res) => {
       }
     })
   }
+
+  console.log(data.employees[0].services[0]);
 
   res.status(200).send(data);
 }
