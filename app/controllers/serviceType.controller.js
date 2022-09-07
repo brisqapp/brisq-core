@@ -1,9 +1,18 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : serviceType.controller.js
+ * Description    : Contient les requêtes faites à la BDD concernant la table "serviceType".             
+ */
+
 const db = require("../models");
 const ServiceType = db.serviceType;
 const Op = db.Sequelize.Op;
 
+// Fonction permettant de créer un "serviceType"
 exports.create = async (req, res) => {
-  // Validate request
+  
+  // Vérification de si tous les champs nécessaires sont présents dans la requête
   if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -11,10 +20,12 @@ exports.create = async (req, res) => {
     return;
   }
 
+  // Récupération des informations présentes dans la requête pour le "serviceType"
   const serviceType = {
     name: req.body.name
   };
 
+  // Sauvegarde de "serviceType" dans la BDD
   ServiceType.create(serviceType)
     .then(data => {
       res.send(data);
@@ -27,6 +38,7 @@ exports.create = async (req, res) => {
     });
 };
 
+// Fonction permettant de récupérer tous les "serviceType"
 exports.findAll = (req, res) => {
 
   ServiceType.findAll()
@@ -41,6 +53,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Fonction permettant de trouver un "serviceType" à l'aide de son id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
@@ -55,6 +68,7 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Fonction permettant d'update un "serviceType" à l'aide d'un id
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -79,6 +93,7 @@ exports.update = (req, res) => {
     });
 };
 
+// Fonction permettant de supprimer un "serviceType" à l'aide d'un id
 exports.delete = (req, res) => {
   const id = req.params.id;
 

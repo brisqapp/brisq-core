@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : serviceEmployee.routes.js
+ * Description    : Contient les routes pour la partie serviceEmployee.
+ */
+
 module.exports = app => {
   const serviceEmployee = require("../controllers/serviceEmployee.controller.js");
 
@@ -72,7 +79,7 @@ module.exports = app => {
 
   /**
 * @api {put} serviceEmployee/ Update an employee service information by id
-* @apiName findOne
+* @apiName update
 * @apiGroup ServiceEmployee
 * 
 * @apiDescription Update an employee service information by id

@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : db.config.js
+ * Description    : Configuration de la connexion à la BDD à l'aide des variables d'environnement.                 
+ */
+
 module.exports = {
   HOST: process.env.DB_HOST,
   USER: process.env.DB_USER,

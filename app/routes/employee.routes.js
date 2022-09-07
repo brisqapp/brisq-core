@@ -1,3 +1,10 @@
+/**
+ * Projet brisq
+ * Auteurs        : Olivier Tissot-Daguette, Théo Mirabile
+ * Nom du fichier : employee.routes.js
+ * Description    : Contient les routes pour la partie employee.
+ */
+
 module.exports = app => {
   const employee = require("../controllers/employee.controller.js");
   const { checkJwt } = require("../middleware/checkjwt.js");
