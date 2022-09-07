@@ -205,7 +205,5 @@ exports.getCompanyDetails = async (req, res) => {
     })
   }
 
-  console.log(data.employees[0].services[0]);
-
   res.status(200).send(data);
 }
