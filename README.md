@@ -29,5 +29,7 @@ docker-compose up -d
 
 ## Astuces de développement
 
-- Un volume a été créé entre le repository cloné et le container que vous avez lancé. Cela signifie que tout changement aux sources sera automatiquement appliqué au container (qui sera actualisé par *nodemon*). Cela permet de simplifier le développement.
 - Si vous souhaitez afficher les journaux de l'application, utilisez la commande `docker logs brisq-core-app-1`.
+- Comme nous utilisons un container, les modifications ne sont pas directement pris en compte. Afin de pouvoir "valider" les modifications, il faut exécuter cette commande dans le dossier contenant le `docker-compose` : `docker-compose up -d --build`
+- Pour les routes, une documentation automatique peut être générée. Elle est disponible à l'adresse `https://api-doc.brisq.app/`. Pour la générer, il faut exécuter cette commande à la racine du back-end : `apidoc -i app -o docs`
+- Dans le dossier `test`, des tests unitaires sont présents pour les routes de notre application. Nous utilisons `mocha` et `chai` pour faire des tests express.js. Lancer la commande `npm test` afin d'exécuter tous les tests présent dans le dossier `test`.
