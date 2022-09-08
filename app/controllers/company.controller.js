@@ -147,35 +147,32 @@ exports.delete = (req, res) => {
 
 // Fonction permettant de récupérer tous les détails d'une "company"
 exports.getCompanyDetails = async (req, res) => {
+  const idCompany = req.params.id;
 
-const idCompany = req.body.id;
+  const company = await Company.findByPk(idCompany);
 
-// Récupérer les informations d'une company
-const company = await Company.findByPk(idCompany);
-
-// récupérer toutes les informations des employés d'une entreprise
-const employees = await db.employee.findAll({
-  where: {companyId: idCompany},
-  include : 
-  [{
-      model: db.schedule,
-      required: true,
-  },
-  {
-      model: db.serviceEmployee,
-      required: true,
-      include:
-      [{
-        model: db.reservation,
-        required: true
-      },
-      {
-        model: db.serviceType,
-        required: true
-      }
-    ]
-  }]
-});
+  const employees = await db.employee.findAll({
+    where: {companyId: idCompany},
+    include : 
+    [{
+        model: db.schedule,
+        required: false,
+    },
+    {
+        model: db.serviceEmployee,
+        required: false,
+        include:
+        [{
+          model: db.reservation,
+          required: false
+        },
+        {
+          model: db.serviceType,
+          required: true
+        }
+      ]
+    }]
+  });
 
 // parsing des données récupérées précèdement
   const data = {
@@ -186,10 +183,14 @@ const employees = await db.employee.findAll({
         name : e.name,
         schedule: e.schedules,
         services: e.ServiceEmployees.map(se => {
-          return se.serviceType
+          return {
+            id: se.id,
+            name: se.serviceType.name
+          }
         }),
         appointments: e.ServiceEmployees.map(s => {
-          const duration = s.duration
+          if(s.reservations.length == 0) return null;
+          const duration = s.duration;
           return s.reservations.map(r => {
             const endDate = new Date(new Date(r.date + " " + r.startHour).getTime() + duration*60000);
             return {

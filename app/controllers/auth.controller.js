@@ -36,6 +36,7 @@ exports.login = async (req, res) => {
       });
       return;
   }
+  console.log(company);
 
   // Utilisation de bcrypt pour comparer le mot de passe de la requête et celui de la BDD
   const validPassword = await bcrypt.compare(req.body.password, company.password);
